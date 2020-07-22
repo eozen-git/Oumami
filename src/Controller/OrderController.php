@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Cart;
 use App\Entity\OrderDetail;
-use App\Form\OrderDetailType;
+use App\Form\CartType;
 use App\Repository\DishRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,21 +23,18 @@ class OrderController extends AbstractController
     {
         $dishes = $dishRepository->findBy([]);
 
-        $orderDetail = new OrderDetail();
+        $cart = new Cart();
         foreach ($dishes as $dish) {
-            $userActivity = new UserActivity();
-            $userActivity->setActivity($activity->getName());
-            $userActivity->setHour($activity->getHour());
-            $userActivity->setMinute($activity->getMinute());
+            $orderDetail = new OrderDetail();
+            $orderDetail->setFood($dish);
 
-            $housingActivity->addActivity($userActivity);
+            $cart->addOrderDetail($orderDetail);
         }
 
-        $form = $this->createForm(OrderDetailType::class);
+        $form = $this->createForm(CartType::class, $cart);
         $form->handleRequest($request);
 
         return $this->render('order/index.html.twig', [
-            'dishes' => $dishes,
             'form' => $form->createView()
         ]);
     }

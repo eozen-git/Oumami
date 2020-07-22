@@ -5,17 +5,18 @@
     <div class="header col-9 mx-auto">
         <h1 class="text-center mt-5">Prise de commande</h1>
     </div>
-    <section class="order d-flex justify-content-center">
-        <div class="container row mt-5">
+    <section class="order">
+        <div class="container mt-5">
             {{ form_start(form) }}
-            {% for dish in dishes %}
+            {% for orderDetail in form.orderDetails %}
                 <div class="card mr-3 mb-3">
-                    <img class="card-img-top" src="build/images/{{ dish.image }}" alt="Card image cap">
+                    <img class="card-img-top" src="build/images/{{ orderDetail.vars.data.food.image }}"
+                         alt="Card image cap">
                     <div class="card-body">
-                        <h5>{{ dish.name }}</h5>
+                        <h5>{{ orderDetail.vars.data.food.name }}</h5>
                         <div class="row">
-                            <p class="card-text">{{ dish.price }} €</p>
-                            {{ form_widget(form) }}
+                            <p class="card-text">{{ orderDetail.vars.data.food.price }} €</p>
+                            {{ form_widget(orderDetail) }}
                         </div>
                     </div>
                 </div>
@@ -24,3 +25,27 @@
         </div>
     </section>
 {% endblock %}
+
+{#        {{ form_start(form) }}#}
+{#<table class="table table-hover">#}
+{#    <thead class="table-primary">#}
+{#    <tr>#}
+{#        <th class="pl-4"><i class="fas fa-briefcase mr-2"></i>Activité</th>#}
+{#        <th class="text-center pr-5"><i class="fas fa-user-clock mr-2"></i>Temps dédié</th>#}
+{#    </tr>#}
+{#    </thead>#}
+{#    <tbody>#}
+{#    {{ form_errors(form) }}#}
+{#    {% for activity in form.activities %}#}
+{#        <tr>#}
+{#            <td>{{ form_label(activity, activity.vars.data.activity) }}</td>#}
+{#            <td class="form-fields">{{ form_widget(activity) }}</td>#}
+{#        </tr>#}
+{#    {% endfor %}#}
+{#    </tbody>#}
+{#</table>#}
+{#<div class="buttons d-flex ml-2">#}
+{#    {{ form_widget(form.Enregistrer) }}#}
+{#    <a class="btn btn-sm btn-primary my-auto" href="{{ path('home') }}">Retour accueil</a>#}
+{#</div>#}
+{#{{ form_end(form) }}#}

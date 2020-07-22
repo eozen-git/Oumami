@@ -3,27 +3,26 @@
 
 namespace App\Entity;
 
-
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Cart
 {
-    private $dishes;
+    private $orderDetails;
 
     public function __construct()
     {
-        $this->dishes = new ArrayCollection();
+        $this->orderDetails = new ArrayCollection();
     }
 
-    public function getDishes()
+    public function getOrderDetails()
     {
-        return $this->dishes;
+        return $this->orderDetails;
     }
 
-    public function addActivity(Dish $dish): self
+    public function addOrderDetail(OrderDetail $orderDetail): self
     {
-        if (!$this->dishes->contains($dish)) {
-            $this->dishes[] = $dish;
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails[] = $orderDetail;
         }
 
         return $this;
