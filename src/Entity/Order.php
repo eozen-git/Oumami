@@ -31,7 +31,7 @@ class Order
     private $retrieval_datetime;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="order_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="command", orphanRemoval=true)
      */
     private $orderDetails;
 
@@ -81,7 +81,7 @@ class Order
     {
         if (!$this->orderDetails->contains($orderDetail)) {
             $this->orderDetails[] = $orderDetail;
-            $orderDetail->setOrderId($this);
+            $orderDetail->setCommand($this);
         }
 
         return $this;
@@ -92,8 +92,8 @@ class Order
         if ($this->orderDetails->contains($orderDetail)) {
             $this->orderDetails->removeElement($orderDetail);
             // set the owning side to null (unless already changed)
-            if ($orderDetail->getOrderId() === $this) {
-                $orderDetail->setOrderId(null);
+            if ($orderDetail->getCommand() === $this) {
+                $orderDetail->setCommand(null);
             }
         }
 

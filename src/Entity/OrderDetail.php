@@ -21,13 +21,13 @@ class OrderDetail
      * @ORM\ManyToOne(targetEntity=order::class, inversedBy="orderDetails")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $order_id;
+    private $command;
 
     /**
      * @ORM\ManyToOne(targetEntity=dish::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $dish_id;
+    private $food;
 
     /**
      * @ORM\Column(type="integer")
@@ -39,26 +39,26 @@ class OrderDetail
         return $this->id;
     }
 
-    public function getOrderId(): ?order
+    public function getCommand(): ?order
     {
-        return $this->order_id;
+        return $this->command;
     }
 
-    public function setOrderId(?order $order_id): self
+    public function setCommand(?order $command): self
     {
-        $this->order_id = $order_id;
+        $this->command = $command;
 
         return $this;
     }
 
-    public function getDishId(): ?dish
+    public function getFood(): ?dish
     {
-        return $this->dish_id;
+        return $this->food;
     }
 
-    public function setDishId(?dish $dish_id): self
+    public function setFood(?dish $food): self
     {
-        $this->dish_id = $dish_id;
+        $this->food = $food;
 
         return $this;
     }
