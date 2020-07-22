@@ -1,4 +1,5 @@
 {% extends 'layout.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block main %}
     <div class="header col-9 mx-auto">
@@ -6,15 +7,20 @@
     </div>
     <section class="order d-flex justify-content-center">
         <div class="container row mt-5">
+            {{ form_start(form) }}
             {% for dish in dishes %}
                 <div class="card mr-3 mb-3">
                     <img class="card-img-top" src="build/images/{{ dish.image }}" alt="Card image cap">
                     <div class="card-body">
                         <h5>{{ dish.name }}</h5>
-                        <p class="card-text">{{ dish.price }} €</p>
+                        <div class="row">
+                            <p class="card-text">{{ dish.price }} €</p>
+                            {{ form_widget(form) }}
+                        </div>
                     </div>
                 </div>
             {% endfor %}
+            {{ form_end(form) }}
         </div>
     </section>
 {% endblock %}
