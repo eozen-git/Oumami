@@ -1,5 +1,24 @@
+@import "vars";
+@import "navbar";
+
 @import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+
+html {
+    height: 100%;
+    scroll-behavior: smooth;
+}
 
 body {
-    background-color: lightgray;
+    background-color: $background-color;
+    min-height: 100%;
+    @include text (400, 14px);
+}
+
+h1 {
+    @include text (900, 2em);
+}
+
+h2, h3 {
+    @include text (700, 1.5em);
 }

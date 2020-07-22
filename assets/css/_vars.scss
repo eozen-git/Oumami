@@ -1,0 +1,14 @@
+$primary-color: #E84D0E;
+$secondary-color: rgba(232, 77, 4, 0.7);
+$dark-color: #333333;
+
+$background-color: #FFFFFF;
+$secondary-background-color: #ececec;
+
+$main-font: "Roboto", sans-serif;
+
+@mixin text ($font-weight, $font-size) {
+  font-family: $main-font;
+  font-weight: $font-weight;
+  font-size: $font-size;
+}

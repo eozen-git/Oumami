@@ -1,0 +1,12 @@
+.nav {
+  background-color: $secondary-background-color;
+}
+
+.navbar-link {
+  @include text (400, 14px);
+  color: $primary-color;
+}
+
+.logo-navbar {
+  width: 80px;
+}
