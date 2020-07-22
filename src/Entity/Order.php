@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +29,16 @@ class Order
      * @ORM\Column(type="datetime")
      */
     private $retrieval_datetime;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="order_id", orphanRemoval=true)
+     */
+    private $orderDetails;
+
+    public function __construct()
+    {
+        $this->orderDetails = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -53,6 +65,37 @@ class Order
     public function setRetrievalDatetime(\DateTimeInterface $retrieval_datetime): self
     {
         $this->retrieval_datetime = $retrieval_datetime;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderDetail[]
+     */
+    public function getOrderDetails(): Collection
+    {
+        return $this->orderDetails;
+    }
+
+    public function addOrderDetail(OrderDetail $orderDetail): self
+    {
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails[] = $orderDetail;
+            $orderDetail->setOrderId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderDetail(OrderDetail $orderDetail): self
+    {
+        if ($this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails->removeElement($orderDetail);
+            // set the owning side to null (unless already changed)
+            if ($orderDetail->getOrderId() === $this) {
+                $orderDetail->setOrderId(null);
+            }
+        }
 
         return $this;
     }
