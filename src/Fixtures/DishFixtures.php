@@ -18,8 +18,8 @@ class DishFixtures extends Fixture
         for ($i = 0; $i < 4; $i++)
         {
             $dish = new Dish();
-            $dish->setName($faker->words(3, true));
-            $dish->setImage($faker->imageUrl(320, 200, 'food'));
+            $dish->setName(ucfirst($faker->words(3, true)));
+            $dish->setImage($faker->image('assets/images', 320, 200, 'food', false));
             $dish->setPrice($faker->randomFloat(2, 1, 5));
 
             $manager->persist($dish);

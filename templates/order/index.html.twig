@@ -1,4 +1,20 @@
 {% extends 'layout.html.twig' %}
 
 {% block main %}
+    <div class="header col-9 mx-auto">
+        <h1 class="text-center mt-5">Prise de commande</h1>
+    </div>
+    <section class="order d-flex justify-content-center">
+        <div class="container row mt-5">
+            {% for dish in dishes %}
+                <div class="card mr-3 mb-3">
+                    <img class="card-img-top" src="build/images/{{ dish.image }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5>{{ dish.name }}</h5>
+                        <p class="card-text">{{ dish.price }} €</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
 {% endblock %}
