@@ -5,6 +5,10 @@
 
 .navbar-link {
   @include text (400, 14px);
+  color: $secondary-color;
+}
+
+.navbar-link:hover {
   color: $primary-color;
 }
 
