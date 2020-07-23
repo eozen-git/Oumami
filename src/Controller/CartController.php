@@ -7,6 +7,8 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Service\CalculationManager;
+use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +23,7 @@ class CartController extends AbstractController
      * @param Request $request
      * @param CalculationManager $calculationManager
      * @return Response
+     * @throws Exception
      */
     public function index(SessionInterface $session, Request $request, CalculationManager $calculationManager)
     {
@@ -31,7 +34,7 @@ class CartController extends AbstractController
             $order->addOrderDetail($orderDetail);
         }
         $order->setTotalPrice($calculationManager->check($order));
-        $order->setRetrievalDatetime(new \DateTime());
+        $order->setRetrievalDatetime(new DateTime());
 
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);

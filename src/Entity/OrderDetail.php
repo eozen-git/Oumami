@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OrderDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=OrderDetailRepository::class)
@@ -30,6 +31,7 @@ class OrderDetail
     private $food;
 
     /**
+     * @Assert\PositiveOrZero()
      * @ORM\Column(type="integer")
      */
     private $quantity;

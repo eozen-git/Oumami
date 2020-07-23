@@ -41,6 +41,7 @@ class OrderController extends AbstractController
         if ($form->isSubmitted()) {
             $cart = $parsingManager->removeOrderZeroQuantity($cart);
 
+            $session->clear();
             $session->set('cart', $cart);
 
             return $this->redirectToRoute('cart');
