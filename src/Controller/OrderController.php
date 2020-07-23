@@ -6,6 +6,7 @@ use App\Entity\Cart;
 use App\Entity\OrderDetail;
 use App\Form\CartType;
 use App\Repository\DishRepository;
+use App\Service\ParsingManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -38,6 +39,8 @@ class OrderController extends AbstractController
 
         if ($form->isSubmitted()) {
             $session->set('cart', $cart);
+
+            return $this->redirectToRoute('cart');
         }
 
         return $this->render('order/index.html.twig', [
