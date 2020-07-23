@@ -16,9 +16,6 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('orderDetails', CollectionType::class, [
-                'entry_type' => OrderDetailType::class
-            ])
             ->add('retrieval_datetime', DateTimeType::class, [
                 'hours' => [
                     12,

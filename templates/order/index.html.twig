@@ -18,7 +18,7 @@
                          alt="{{ orderDetail.vars.data.food.name }}">
                     <div class="card-footer">
                         <div class="d-flex justify-content-between card-bottom my-3">
-                            <p class="card-text ml-3 align-self-center my-auto">{{ orderDetail.vars.data.food.price }}
+                            <p class="card-text ml-3 align-self-center my-auto">{{ orderDetail.vars.data.food.price|number_format(2) }}
                                 €</p>
                             <span class="mr-3 my-auto">{{ form_widget(orderDetail) }}</span>
                         </div>
@@ -27,7 +27,7 @@
             {% endfor %}
         </div>
     </section>
-    <div class="container d-flex justify-content-lg-start justify-content-center mx-auto mt-4 px-4">
+    <div class="container d-flex justify-content-lg-start justify-content-center mx-auto mt-4 px-4 mb-5">
         {{ form_widget(form.Enregistrer) }}
     </div>
     {{ form_end(form) }}

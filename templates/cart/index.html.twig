@@ -6,48 +6,50 @@
         <h1 class="text-center mt-5">Récapitulatif commande</h1>
     </div>
     <section class="cart container mt-5">
-        {{ form_start(form) }}
         <table class="table table-hover">
             <thead class="table-primary">
             <tr>
                 <th class="">Plat</th>
                 <th class="">Prix</th>
-                <th class="text-right pr-5">Quantité</th>
+                <th class="text-right pr-4">Quantité</th>
             </tr>
             </thead>
             <tbody>
-            {{ form_errors(form) }}
-            {% for orderDetail in form.orderDetails %}
+            {% for orderDetail in orderDetails %}
                 <tr>
-                    <td>{{ orderDetail.vars.data.food.name }}</td>
-                    <td>{{ orderDetail.vars.data.food.price }} €</td>
-                    <td class="quantity-input">{{ form_widget(orderDetail) }}</td>
+                    <td>{{ orderDetail.food.name }}</td>
+                    <td>{{ orderDetail.food.price|number_format(2) }} €</td>
+                    <td class="text-right pr-5">{{ orderDetail.quantity }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        {{ form_start(form) }}
         <div class="d-flex flex-column justify-content-end mt-4 mb-5">
             <p class="mr-4 text-right">Montant total</p>
-            <h2 class="mr-4 text-right">{{ order.totalPrice }} €</h2>
+            <h2 class="mr-4 text-right">{{ order.totalPrice|number_format(2) }} €</h2>
         </div>
         <div class="container row justify-content-start">
             <span class="mr-5">{{ form_widget(form.customer) }}</span>
-            {{
-            form_widget(
+            {{ form_widget(
                 form.retrieval_datetime.date.year,
                 {
                     'attr': { 'style': 'display:none' }
                 }
-            )
-            }}
-            <span class="ml-5 align-self-center">{{ form_widget(form.retrieval_datetime.date.day) }}</span>
-            <span class="ml-5 align-self-center">{{ form_widget(form.retrieval_datetime.date.month) }}</span>
-            <span class="ml-5 align-self-center">{{ form_widget(form.retrieval_datetime.time.hour) }}</span>
-            <span class="ml-2 align-self-center">{{ form_widget(form.retrieval_datetime.time.minute) }}</span>
+            ) }}
+            <div class="d-flex flex-column align-items-center justify-content-center">
+                <span class="mr-5 pr-2 mb-2">{{ form_label(form.retrieval_datetime.date.day, 'Date/heure récupération commande') }}</span>
+                <div class="d-flex flex-row">
+                    <span class="ml-5 align-self-center">{{ form_widget(form.retrieval_datetime.date.day) }}</span>
+                    <span class="ml-2 align-self-center">{{ form_widget(form.retrieval_datetime.date.month) }}</span>
+                    <span class="ml-5 align-self-center">{{ form_widget(form.retrieval_datetime.time.hour) }}</span>
+                    <span class="ml-2 align-self-center">{{ form_widget(form.retrieval_datetime.time.minute) }}</span>
+                </div>
+            </div>
         </div>
-        {{ form_end(form) }}
     </section>
-    <div class="container d-flex justify-content-lg-start justify-content-center mx-auto mt-4 px-4">
+    <div class="container d-flex justify-content-lg-start justify-content-center mx-auto mt-4 px-2">
         {{ form_widget(form.Enregistrer) }}
     </div>
+    {{ form_end(form) }}
 {% endblock %}

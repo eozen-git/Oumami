@@ -92,7 +92,8 @@ class CartController extends AbstractController
 
         return $this->render('cart/index.html.twig', [
             'form' => $form->createView(),
-            'order' => $order
+            'order' => $order,
+            'orderDetails' => $orderDetails
         ]);
     }
 }
