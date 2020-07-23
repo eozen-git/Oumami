@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\DishRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=DishRepository::class)
+ * @UniqueEntity("name")
  */
 class Dish
 {

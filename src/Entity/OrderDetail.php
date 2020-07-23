@@ -25,8 +25,8 @@ class OrderDetail
     private $command;
 
     /**
-     * @ORM\ManyToOne(targetEntity=dish::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=dish::class, cascade={"persist"})
+     * @ORM\JoinColumn(name="food_id", referencedColumnName="id", nullable=false)
      */
     private $food;
 
