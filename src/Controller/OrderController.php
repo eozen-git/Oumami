@@ -20,9 +20,10 @@ class OrderController extends AbstractController
      * @param DishRepository $dishRepository
      * @param Request $request
      * @param SessionInterface $session
+     * @param ParsingManager $parsingManager
      * @return Response
      */
-    public function index(DishRepository $dishRepository, Request $request, SessionInterface $session)
+    public function index(DishRepository $dishRepository, Request $request, SessionInterface $session, ParsingManager $parsingManager)
     {
         $dishes = $dishRepository->findBy([]);
 
@@ -38,6 +39,8 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            $cart = $parsingManager->removeOrderZeroQuantity($cart->getOrderDetails());
+
             $session->set('cart', $cart);
 
             return $this->redirectToRoute('cart');

@@ -4,6 +4,12 @@
 {% block main %}
     <section class="cart container">
         {{ form_start(form) }}
+        {% for orderDetail in form.orderDetails %}
+            {% if orderDetail.vars.data.quantity is not null %}
+                {{ form_label(orderDetail, orderDetail.vars.data.food.name) }}
+                {{ form_widget(orderDetail) }}
+            {% endif %}
+        {% endfor %}
         {{ form_end(form) }}
     </section>
 {% endblock %}
