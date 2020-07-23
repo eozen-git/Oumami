@@ -2,4 +2,8 @@
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block main %}
+    <section class="cart container">
+        {{ form_start(form) }}
+        {{ form_end(form) }}
+    </section>
 {% endblock %}
