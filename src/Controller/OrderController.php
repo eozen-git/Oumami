@@ -39,7 +39,7 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $cart = $parsingManager->removeOrderZeroQuantity($cart->getOrderDetails());
+            $cart = $parsingManager->removeOrderZeroQuantity($cart);
 
             $session->set('cart', $cart);
 
