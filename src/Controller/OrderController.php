@@ -6,7 +6,6 @@ use App\Entity\Cart;
 use App\Entity\OrderDetail;
 use App\Form\CartType;
 use App\Repository\DishRepository;
-use App\Service\ParsingManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -20,28 +19,28 @@ class OrderController extends AbstractController
      * @param DishRepository $dishRepository
      * @param Request $request
      * @param SessionInterface $session
-     * @param ParsingManager $parsingManager
      * @return Response
      */
-    public function index(DishRepository $dishRepository, Request $request, SessionInterface $session, ParsingManager $parsingManager)
+    public function index(DishRepository $dishRepository, Request $request, SessionInterface $session)
     {
         $dishes = $dishRepository->findBy([]);
+        $cart = $session->get('cart');
 
-        $cart = new Cart();
-        foreach ($dishes as $dish) {
-            $orderDetail = new OrderDetail();
-            $orderDetail->setFood($dish);
-            $orderDetail->setQuantity(0);
+        if (!isset($cart)) {
+            $cart = new Cart();
+            foreach ($dishes as $dish) {
+                $orderDetail = new OrderDetail();
+                $orderDetail->setFood($dish);
+                $orderDetail->setQuantity(0);
 
-            $cart->addOrderDetail($orderDetail);
+                $cart->addOrderDetail($orderDetail);
+            }
         }
 
         $form = $this->createForm(CartType::class, $cart);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $cart = $parsingManager->removeOrderZeroQuantity($cart);
-
             $session->set('cart', $cart);
 
             return $this->redirectToRoute('cart');

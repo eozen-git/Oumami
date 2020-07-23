@@ -13,6 +13,10 @@
         .bold {
             font-weight: bold;
         }
+
+        .order-table {
+            padding: 16px 0;
+        }
     </style>
 </head>
 
@@ -32,11 +36,13 @@
             </thead>
             <tbody>
             {% for orderDetail in order.orderDetails %}
+                {% if orderDetail.quantity > 0 %}
                 <tr class="t-row">
                     <td>{{ orderDetail.food.name }}</td>
                     <td class="row-price">{{ orderDetail.food.price }} €</td>
                     <td>{{ orderDetail.quantity }}</td>
                 </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>

@@ -88,6 +88,10 @@ class CartController extends AbstractController
             $twigBodyRenderer->render($email);
 
             $mailer->send($email);
+
+            $session->clear();
+
+            return $this->redirectToRoute('order');
         }
 
         return $this->render('cart/index.html.twig', [

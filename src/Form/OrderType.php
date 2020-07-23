@@ -35,7 +35,7 @@ class OrderType extends AbstractType
             ])
             ->add('customer', CustomerType::class)
             ->add('Enregistrer', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-lg btn-primary ml-3 mt-5'],
+                'attr' => ['class' => 'btn btn-lg btn-primary mt-4'],
             ]);;
     }
 

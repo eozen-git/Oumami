@@ -17,6 +17,7 @@ class CartType extends AbstractType
         $builder->add('orderDetails', CollectionType::class, [
             'entry_type' => OrderDetailType::class,
             'entry_options' => ['label' => false],
+            'error_bubbling' => true
         ]);
         $builder->add('Enregistrer', SubmitType::class, [
             'attr' => ['class' => 'btn btn-lg btn-primary ml-4'],
