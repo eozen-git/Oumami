@@ -18,7 +18,23 @@ class OrderType extends AbstractType
             ->add('orderDetails', CollectionType::class, [
                 'entry_type' => OrderDetailType::class
             ])
-            ->add('retrieval_datetime', DateTimeType::class)
+            ->add('retrieval_datetime', DateTimeType::class, [
+                'hours' => [
+                    12,
+                    13,
+                    18,
+                    19,
+                    20
+                ],
+                'minutes' => [
+                    00,
+                    10,
+                    20,
+                    30,
+                    40,
+                    50,
+                ]
+            ])
             ->add('customer', CustomerType::class)
         ;
     }
