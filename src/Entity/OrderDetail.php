@@ -31,8 +31,8 @@ class OrderDetail
     private $food;
 
     /**
-     * @Assert\PositiveOrZero()
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero(message="La quantité d'un plat doit être égale ou supérieure à 0")
      */
     private $quantity;
 

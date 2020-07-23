@@ -39,6 +39,12 @@ class CartController extends AbstractController
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($order);
+            $entityManager->flush();
+        }
+
         return $this->render('cart/index.html.twig', [
             'form' => $form->createView(),
             'order' => $order

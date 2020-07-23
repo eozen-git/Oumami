@@ -6,6 +6,7 @@
         <h1 class="text-center mt-5">Prise de commande</h1>
     </div>
     {{ form_start(form) }}
+    {{ form_errors(form) }}
     <section class="order container">
         <div class="container row row-cols-1 row-cols-lg-2 mt-5 mx-auto justify-content-lg-between justify-content-center">
             {% for orderDetail in form.orderDetails %}
@@ -27,7 +28,7 @@
         </div>
     </section>
     <div class="container d-flex justify-content-lg-start justify-content-center mx-auto mt-4 px-4">
-        <button class="btn btn-lg btn-primary ml-4">{{ button_label|default('Enregistrer') }}</button>
+        {{ form_widget(form.Enregistrer) }}
     </div>
     {{ form_end(form) }}
 {% endblock %}

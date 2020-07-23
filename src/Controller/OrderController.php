@@ -31,6 +31,7 @@ class OrderController extends AbstractController
         foreach ($dishes as $dish) {
             $orderDetail = new OrderDetail();
             $orderDetail->setFood($dish);
+            $orderDetail->setQuantity(0);
 
             $cart->addOrderDetail($orderDetail);
         }
@@ -38,10 +39,9 @@ class OrderController extends AbstractController
         $form = $this->createForm(CartType::class, $cart);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $cart = $parsingManager->removeOrderZeroQuantity($cart);
 
-            $session->clear();
             $session->set('cart', $cart);
 
             return $this->redirectToRoute('cart');
