@@ -31,12 +31,14 @@ class CartController extends AbstractController
             $order->addOrderDetail($orderDetail);
         }
         $order->setTotalPrice($calculationManager->check($order));
+        $order->setRetrievalDatetime(new \DateTime());
 
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
 
         return $this->render('cart/index.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'order' => $order
         ]);
     }
 }

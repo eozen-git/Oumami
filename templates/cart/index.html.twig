@@ -12,7 +12,7 @@
             <tr>
                 <th class="">Plat</th>
                 <th class="">Prix</th>
-                <th class="text-center pr-5"><i class="fas fa-user-clock mr-2"></i>Quantité</th>
+                <th class="text-right pr-5">Quantité</th>
             </tr>
             </thead>
             <tbody>
@@ -26,6 +26,25 @@
             {% endfor %}
             </tbody>
         </table>
+        <div class="d-flex flex-column justify-content-end mt-4 mb-5">
+            <p class="mr-4 text-right">Montant total</p>
+            <h2 class="mr-4 text-right">{{ order.totalPrice }} €</h2>
+        </div>
+        <div class="container row justify-content-start">
+            <span class="mr-5">{{ form_widget(form.customer) }}</span>
+            {{
+            form_widget(
+                form.retrieval_datetime.date.year,
+                {
+                    'attr': { 'style': 'display:none' }
+                }
+            )
+            }}
+            <span class="ml-5 align-self-center">{{ form_widget(form.retrieval_datetime.date.day) }}</span>
+            <span class="ml-5 align-self-center">{{ form_widget(form.retrieval_datetime.date.month) }}</span>
+            <span class="ml-5 align-self-center">{{ form_widget(form.retrieval_datetime.time.hour) }}</span>
+            <span class="ml-2 align-self-center">{{ form_widget(form.retrieval_datetime.time.minute) }}</span>
+        </div>
         {{ form_end(form) }}
     </section>
 {% endblock %}

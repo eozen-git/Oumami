@@ -4,5 +4,6 @@
 
 .cart div[id*=order_orderDetails] div {
   display: flex;
-  justify-content: center;
+  justify-content: end;
+  margin-right: 0.6rem;
 }

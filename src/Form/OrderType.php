@@ -16,10 +16,8 @@ class OrderType extends AbstractType
     {
         $builder
             ->add('orderDetails', CollectionType::class, [
-                'entry_type' => OrderDetailType::class,
-                'label' => 'Panier'
+                'entry_type' => OrderDetailType::class
             ])
-            ->add('total_price', NumberType::class)
             ->add('retrieval_datetime', DateTimeType::class)
             ->add('customer', CustomerType::class)
         ;
