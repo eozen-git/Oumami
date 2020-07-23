@@ -15,7 +15,9 @@ class OrderDetailType extends AbstractType
     {
         $builder
             ->add('food', HiddenType::class)
-            ->add('quantity', IntegerType::class)
+            ->add('quantity', IntegerType::class, [
+                'label' => false
+            ])
         ;
     }
 

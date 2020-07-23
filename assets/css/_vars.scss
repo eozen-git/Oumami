@@ -7,6 +7,11 @@ $secondary-background-color: #ececec;
 
 $main-font: "Roboto", sans-serif;
 
+$theme-colors: (
+        "primary": $primary-color,
+        "secondary": $secondary-color,
+);
+
 @mixin text ($font-weight, $font-size) {
   font-family: $main-font;
   font-weight: $font-weight;

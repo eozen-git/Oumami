@@ -2,6 +2,40 @@
   width: 100%;
 }
 
-.card {
+.order .card-body,
+.order .card-footer {
+  padding: 0;
+}
+
+.order .card {
   max-width: 320px;
+}
+
+.order .card-footer {
+  background-color: $background-color;
+  align-content: center;
+}
+
+.order .card-text {
+  width: 50%;
+  font-size: 1.3em;
+}
+
+.order form {
+  display: flex;
+  justify-content: center;
+}
+
+.order .form-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0;
+}
+
+.order input {
+  width: 60%;
+}
+
+.order h5 {
+  color: $primary-color;
 }

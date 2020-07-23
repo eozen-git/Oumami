@@ -23,3 +23,13 @@ h1 {
 h2, h3 {
     @include text (700, 1.5em);
 }
+
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
+.btn.focus:active,
+.btn:active:focus,
+.btn:focus,
+.btn:not(:disabled):not(.disabled):active:focus {
+    box-shadow: none;
+}
