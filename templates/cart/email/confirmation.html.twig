@@ -1,0 +1,49 @@
+<html lang="fr">
+<head>
+    <style>
+        body {
+            font-size: 16px;
+        }
+
+        th,
+        td {
+            padding-right: 24px;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Bonjour {{ order.customer.name }},</h1>
+
+<p class="announce-text">Voici le récapitulatif de votre commande</p>
+<div class="order">
+    <div class="order-info">
+        <table class="order-table">
+            <thead>
+            <tr class="t-head">
+                <th>Plat</th>
+                <th class="head-price">Prix</th>
+                <th>Quantité</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for orderDetail in order.orderDetails %}
+                <tr class="t-row">
+                    <td>{{ orderDetail.food.name }}</td>
+                    <td class="row-price">{{ orderDetail.food.price }} €</td>
+                    <td>{{ orderDetail.quantity }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p>Prix total : <span class="bold">{{ order.totalPrice }} €</span></p>
+        <p>Date et heure à laquelle vous pouvez venir récupérer votre commande
+            : <span class="bold">{{ order.retrievalDateTime|date('d-m H:i') }}</span></p>
+    </div>
+</div>
+</body>
+</html>

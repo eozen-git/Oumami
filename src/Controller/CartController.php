@@ -10,12 +10,19 @@ use App\Entity\Order;
 use App\Form\OrderType;
 use App\Service\CalculationManager;
 use DateTime;
-use Exception;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class CartController extends AbstractController
 {
@@ -24,10 +31,11 @@ class CartController extends AbstractController
      * @param SessionInterface $session
      * @param Request $request
      * @param CalculationManager $calculationManager
+     * @param MailerInterface $mailer
      * @return Response
-     * @throws Exception
+     * @throws TransportExceptionInterface
      */
-    public function index(SessionInterface $session, Request $request, CalculationManager $calculationManager)
+    public function index(SessionInterface $session, Request $request, CalculationManager $calculationManager, MailerInterface $mailer)
     {
         $orderDetails = ($session->get('cart'))->getOrderDetails();
         $entityManager = $this->getDoctrine()->getManager();
@@ -61,6 +69,25 @@ class CartController extends AbstractController
 
             $entityManager->persist($order);
             $entityManager->flush();
+
+            $transport = new GmailSmtpTransport('eoz.wild', 'JJ?811223!jj');
+            $mailer = new Mailer($transport);
+
+            $email = (new TemplatedEmail())
+                ->from('eoz.wild@gmail.com')
+                ->to($order->getCustomer()->getEmail())
+                ->subject('Votre commande Oumami')
+                ->htmlTemplate('cart/email/confirmation.html.twig')
+                ->context([
+                    'order' => $order
+                ]);
+
+            $loader = new FilesystemLoader('../templates/');
+            $twigEnv = new Environment($loader);
+            $twigBodyRenderer = new BodyRenderer($twigEnv);
+            $twigBodyRenderer->render($email);
+
+            $mailer->send($email);
         }
 
         return $this->render('cart/index.html.twig', [
