@@ -16,9 +16,8 @@ class OrderDetailType extends AbstractType
             ->add('quantity', IntegerType::class, [
                 'label' => false,
                 'required' => false,
-                'empty_data' => 0
-            ])
-        ;
+                'empty_data' => 0,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

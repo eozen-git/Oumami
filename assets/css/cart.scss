@@ -1,0 +1,8 @@
+.cart input[id*="order_orderDetails"] {
+  width: 20%;
+}
+
+.cart div[id*=order_orderDetails] div {
+  display: flex;
+  justify-content: center;
+}

@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Form\OrderType;
+use App\Service\CalculationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +19,10 @@ class CartController extends AbstractController
      * @Route("/panier", name="cart")
      * @param SessionInterface $session
      * @param Request $request
+     * @param CalculationManager $calculationManager
      * @return Response
      */
-    public function index(SessionInterface $session, Request $request)
+    public function index(SessionInterface $session, Request $request, CalculationManager $calculationManager)
     {
         $orderDetails = ($session->get('cart'))->getOrderDetails();
 
@@ -28,6 +30,7 @@ class CartController extends AbstractController
         foreach ($orderDetails as $orderDetail) {
             $order->addOrderDetail($orderDetail);
         }
+        $order->setTotalPrice($calculationManager->check($order));
 
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
