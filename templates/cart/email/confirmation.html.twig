@@ -39,14 +39,14 @@
                 {% if orderDetail.quantity > 0 %}
                 <tr class="t-row">
                     <td>{{ orderDetail.food.name }}</td>
-                    <td class="row-price">{{ orderDetail.food.price }} €</td>
+                    <td class="row-price">{{ orderDetail.food.price|number_format(2) }} €</td>
                     <td>{{ orderDetail.quantity }}</td>
                 </tr>
                 {% endif %}
             {% endfor %}
             </tbody>
         </table>
-        <p>Prix total : <span class="bold">{{ order.totalPrice }} €</span></p>
+        <p>Prix total : <span class="bold">{{ order.totalPrice|number_format(2) }} €</span></p>
         <p>Date et heure à laquelle vous pouvez venir récupérer votre commande
             : <span class="bold">{{ order.retrievalDateTime|date('d-m H:i') }}</span></p>
     </div>
