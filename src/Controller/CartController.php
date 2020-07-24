@@ -104,6 +104,11 @@ class CartController extends AbstractController
             $session->remove('cart');
             $session->clear();
 
+            $this->addFlash(
+                'success',
+                'La commande a bien été enregistrée.'
+            );
+
             return $this->redirectToRoute('order');
         }
 
