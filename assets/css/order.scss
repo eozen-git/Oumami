@@ -34,7 +34,7 @@
 }
 
 .order input {
-  width: 60%;
+  width: 40%;
 }
 
 .order h5 {
@@ -46,4 +46,13 @@
   align-self: center;
   margin-top: 4px;
   border-top: 1.3px solid $primary-color;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
