@@ -43,6 +43,18 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            $empty = $validationManager->emptyCheck($cart->getOrderDetails());
+            if ($empty == 0) {
+                $this->addFlash(
+                    'danger',
+                    'Le panier est vide. Merci de saisir une commande.'
+                );
+
+                return $this->render('order/index.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+            }
+
             $errorMessages = $validationManager->validationLoop($cart->getOrderDetails());
 
             if (!empty($errorMessages)) {

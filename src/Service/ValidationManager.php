@@ -18,6 +18,14 @@ class ValidationManager
         $this->validator = $validator;
     }
 
+    public function emptyCheck($orderDetails) {
+        $count = 0;
+        foreach ($orderDetails as $orderDetail) {
+            $count += $orderDetail->getQuantity();
+        }
+        return $count;
+    }
+
     public function validationLoop($orderDetails)
     {
         $errorMessages = [];
