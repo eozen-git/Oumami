@@ -62,7 +62,7 @@ class CartController extends AbstractController
         if ($form->isSubmitted()) {
             $data = $form->getData();
 
-            $customer = $entityManager->getRepository(Customer::class)->findOneBy(['email' => $data->getCustomer()->getEmail()]);
+            $customer = $entityManager->getRepository(Customer::class)->findOneBy(['name' => $data->getCustomer()->getName()]);
             if (isset($customer)) {
                 $order->setCustomer($customer);
             }
@@ -71,7 +71,7 @@ class CartController extends AbstractController
             if (!empty($errorMessages)) {
                 return $this->render('cart/index.html.twig', [
                     'form' => $form->createView(),
-                    'errors' => $errorMessages,
+                    'minErrors' => $errorMessages,
                     'order' => $order,
                     'orderDetails' => $orderDetails
                 ]);
@@ -101,6 +101,7 @@ class CartController extends AbstractController
                 $mailer->send($email);
             }
 
+            $session->remove('cart');
             $session->clear();
 
             return $this->redirectToRoute('order');
