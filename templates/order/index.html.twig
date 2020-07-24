@@ -11,7 +11,8 @@
             {% for orderDetail in form.orderDetails %}
                 <div class="card mb-3 mx-3">
                     <div class="card-body my-auto">
-                        <h5 class="text-center p-3 m-0">{{ orderDetail.vars.data.food.name }}</h5>
+                        <h5 class="text-center pt-3 m-0">{{ orderDetail.vars.data.food.name }}</h5>
+                        <hr>
                     </div>
                     <img class="card-img-top" src="build/images/{{ orderDetail.vars.data.food.image }}"
                          alt="{{ orderDetail.vars.data.food.name }}">
