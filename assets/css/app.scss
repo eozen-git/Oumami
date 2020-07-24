@@ -1,7 +1,6 @@
 @import "vars";
 @import "navbar";
 @import "order";
-@import "cart";
 
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
@@ -23,6 +22,11 @@ h1 {
 
 h2, h3 {
     @include text (700, 1.5em);
+}
+
+.fa-coins,
+.fa-cubes {
+    color: $primary-color;
 }
 
 .btn.active.focus,

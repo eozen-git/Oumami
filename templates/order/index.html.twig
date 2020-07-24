@@ -11,14 +11,13 @@
             {% for orderDetail in form.orderDetails %}
                 <div class="card mb-3 mx-3">
                     <div class="card-body my-auto">
-                        <h5 class="text-center my-3">{{ orderDetail.vars.data.food.name }}</h5>
+                        <h5 class="text-center p-3 m-0">{{ orderDetail.vars.data.food.name }}</h5>
                     </div>
                     <img class="card-img-top" src="build/images/{{ orderDetail.vars.data.food.image }}"
                          alt="{{ orderDetail.vars.data.food.name }}">
                     <div class="card-footer">
                         <div class="d-flex justify-content-between card-bottom my-3">
-                            <p class="card-text ml-3 align-self-center my-auto">{{ orderDetail.vars.data.food.price|number_format(2) }}
-                                €</p>
+                            <p class="card-text ml-3 align-self-center my-auto"><i class="fas fa-coins mr-3"></i>{{ orderDetail.vars.data.food.price|number_format(2) }} €</p>
                             <span class="mr-3 my-auto">{{ form_widget(orderDetail) }}</span>
                         </div>
                     </div>
