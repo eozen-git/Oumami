@@ -6,6 +6,7 @@ use App\Entity\Cart;
 use App\Entity\OrderDetail;
 use App\Form\CartType;
 use App\Repository\DishRepository;
+use App\Service\ValidationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -19,9 +20,10 @@ class OrderController extends AbstractController
      * @param DishRepository $dishRepository
      * @param Request $request
      * @param SessionInterface $session
+     * @param ValidationManager $validationManager
      * @return Response
      */
-    public function index(DishRepository $dishRepository, Request $request, SessionInterface $session)
+    public function index(DishRepository $dishRepository, Request $request, SessionInterface $session, ValidationManager $validationManager)
     {
         $dishes = $dishRepository->findBy([]);
         $cart = $session->get('cart');
@@ -40,7 +42,16 @@ class OrderController extends AbstractController
         $form = $this->createForm(CartType::class, $cart);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+            $errorMessages = $validationManager->validationLoop($cart->getOrderDetails());
+
+            if (!empty($errorMessages)) {
+                return $this->render('order/index.html.twig', [
+                    'form' => $form->createView(),
+                    'errors' => $errorMessages,
+                ]);
+            }
+
             $session->set('cart', $cart);
 
             return $this->redirectToRoute('cart');

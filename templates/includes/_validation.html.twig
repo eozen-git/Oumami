@@ -1,0 +1,7 @@
+{% if errors is defined %}
+    {% for error_key,  error_value in errors %}
+        <div class="alert alert-danger mb-2">
+            {{ error_key }} : {{ error_value }}
+        </div>
+    {% endfor %}
+{% endif %}
