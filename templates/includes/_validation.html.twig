@@ -1,7 +1,7 @@
 {% if errors is defined %}
-    {% for error_key,  error_value in errors %}
+    {% for error in errors %}
         <div class="alert alert-danger mb-2">
-            {{ error_key }} : {{ error_value }}
+            {{ error }}
         </div>
     {% endfor %}
 {% endif %}

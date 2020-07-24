@@ -15,10 +15,14 @@ class CustomerType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'required' => false,
+                'error_bubbling' => true
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email'
+                'label' => 'Email',
+                'required' => false,
+                'error_bubbling' => true
             ])
         ;
     }

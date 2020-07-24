@@ -9,6 +9,7 @@ use App\Entity\Dish;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Service\CalculationManager;
+use App\Service\ValidationManager;
 use DateTime;
 use Symfony\Bridge\Twig\Mime\BodyRenderer;
 use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
@@ -19,7 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -31,11 +31,11 @@ class CartController extends AbstractController
      * @param SessionInterface $session
      * @param Request $request
      * @param CalculationManager $calculationManager
-     * @param MailerInterface $mailer
+     * @param ValidationManager $validationManager
      * @return Response
      * @throws TransportExceptionInterface
      */
-    public function index(SessionInterface $session, Request $request, CalculationManager $calculationManager, MailerInterface $mailer)
+    public function index(SessionInterface $session, Request $request, CalculationManager $calculationManager, ValidationManager $validationManager)
     {
         $orderDetails = ($session->get('cart'))->getOrderDetails();
         $entityManager = $this->getDoctrine()->getManager();
@@ -43,7 +43,7 @@ class CartController extends AbstractController
 
         for ($i = 0; $i < count($dishes); $i++) {
             foreach ($orderDetails as $orderDetail) {
-                if ($orderDetail->getFood()->getName() == $dishes[$i]-> getName()) {
+                if ($orderDetail->getFood()->getName() == $dishes[$i]->getName()) {
                     $orderDetail->setFood($dishes[$i]);
                 }
             }
@@ -60,8 +60,6 @@ class CartController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
-
             $data = $form->getData();
 
             $customer = $entityManager->getRepository(Customer::class)->findOneBy(['email' => $data->getCustomer()->getEmail()]);
@@ -69,27 +67,39 @@ class CartController extends AbstractController
                 $order->setCustomer($customer);
             }
 
-            $entityManager->persist($order);
-            $entityManager->flush();
-
-            $transport = new GmailSmtpTransport('eoz.wild', 'JJ?811223!jj');
-            $mailer = new Mailer($transport);
-
-            $email = (new TemplatedEmail())
-                ->from('eoz.wild@gmail.com')
-                ->to($order->getCustomer()->getEmail())
-                ->subject('Votre commande Oumami')
-                ->htmlTemplate('cart/email/confirmation.html.twig')
-                ->context([
-                    'order' => $order
+            $errorMessages = $validationManager->validationLoopCustomer($order->getCustomer());
+            if (!empty($errorMessages)) {
+                return $this->render('cart/index.html.twig', [
+                    'form' => $form->createView(),
+                    'errors' => $errorMessages,
+                    'order' => $order,
+                    'orderDetails' => $orderDetails
                 ]);
+            }
 
-            $loader = new FilesystemLoader('../templates/');
-            $twigEnv = new Environment($loader);
-            $twigBodyRenderer = new BodyRenderer($twigEnv);
-            $twigBodyRenderer->render($email);
+            if ($order->getCustomer()->getEmail() != null) {
+                $entityManager->persist($order);
+                $entityManager->flush();
 
-            $mailer->send($email);
+                $transport = new GmailSmtpTransport('eoz.wild', 'JJ?811223!jj');
+                $mailer = new Mailer($transport);
+
+                $email = (new TemplatedEmail())
+                    ->from('eoz.wild@gmail.com')
+                    ->to($order->getCustomer()->getEmail())
+                    ->subject('Votre commande Oumami')
+                    ->htmlTemplate('cart/email/confirmation.html.twig')
+                    ->context([
+                        'order' => $order
+                    ]);
+
+                $loader = new FilesystemLoader('../templates/');
+                $twigEnv = new Environment($loader);
+                $twigBodyRenderer = new BodyRenderer($twigEnv);
+                $twigBodyRenderer->render($email);
+
+                $mailer->send($email);
+            }
 
             $session->clear();
 

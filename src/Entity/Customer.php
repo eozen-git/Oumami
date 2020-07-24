@@ -29,7 +29,7 @@ class Customer
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Email(message="Le mail '{{ value }}' n'est pas un email valide"
+     * @Assert\Email(message="Le mail '{{ value }}' n'est pas un email valide")
      * @Assert\Length(max="255", maxMessage="Le mail du client doit comporter {{ limit }} caractères maximum")
      */
     private $email;

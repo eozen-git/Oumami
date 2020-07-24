@@ -18,7 +18,8 @@ class ValidationManager
         $this->validator = $validator;
     }
 
-    public function validationLoop($orderDetails) {
+    public function validationLoop($orderDetails)
+    {
         $errorMessages = [];
         foreach ($orderDetails as $orderDetail) {
             $errors = $this->validator->validate($orderDetail);
@@ -27,6 +28,17 @@ class ValidationManager
                 $errorRoot = $error->getRoot();
                 $errorMessages[$errorRoot->getFood()->getName()] = $error->getMessage();
             }
+        }
+        return $errorMessages;
+    }
+
+    public function validationLoopCustomer($customer)
+    {
+        $errorMessages = [];
+        $errors = $this->validator->validate($customer);
+        for ($i = 0; $i < $errors->count(); $i++) {
+            $error = $errors->get($i);
+            $errorMessages[] = $error->getMessage();
         }
         return $errorMessages;
     }
