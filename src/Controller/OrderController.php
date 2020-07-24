@@ -73,4 +73,15 @@ class OrderController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/commande/reset", name="reset")
+     * @param SessionInterface $session
+     * @return Response
+     */
+    public function reset(SessionInterface $session) {
+        $session->remove('cart');
+
+        return $this->redirectToRoute('order');
+    }
 }
