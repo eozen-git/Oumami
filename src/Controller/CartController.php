@@ -59,7 +59,9 @@ class CartController extends AbstractController
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+
+
             $data = $form->getData();
 
             $customer = $entityManager->getRepository(Customer::class)->findOneBy(['email' => $data->getCustomer()->getEmail()]);

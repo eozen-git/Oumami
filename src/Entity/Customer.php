@@ -6,6 +6,7 @@ use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
@@ -20,12 +21,16 @@ class Customer
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="Merci de renseigner le nom du client")
+     * @Assert\Length(max="100", maxMessage="Le nom du client doit comporter {{ limit }} caractères maximum")
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Email(message="Le mail '{{ value }}' n'est pas un email valide"
+     * @Assert\Length(max="255", maxMessage="Le mail du client doit comporter {{ limit }} caractères maximum")
      */
     private $email;
 
