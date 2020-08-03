@@ -81,6 +81,7 @@ class OrderController extends AbstractController
      */
     public function reset(SessionInterface $session) {
         $session->remove('cart');
+        $session->clear();
 
         return $this->redirectToRoute('order');
     }
