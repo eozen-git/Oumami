@@ -77,9 +77,10 @@ class CartController extends AbstractController
                 ]);
             }
 
+            $entityManager->persist($order);
+            $entityManager->flush();
+
             if ($order->getCustomer()->getEmail() != null) {
-                $entityManager->persist($order);
-                $entityManager->flush();
 
                 $transport = new GmailSmtpTransport('eoz.wild', 'JJ?811223!jj');
                 $mailer = new Mailer($transport);
