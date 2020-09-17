@@ -33,7 +33,6 @@ class OrderController extends AbstractController
             foreach ($dishes as $dish) {
                 $orderDetail = new OrderDetail();
                 $orderDetail->setFood($dish);
-                $orderDetail->setQuantity(0);
 
                 $cart->addOrderDetail($orderDetail);
             }
@@ -43,6 +42,7 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            $cart = $form->getData();
             $empty = $validationManager->emptyCheck($cart->getOrderDetails());
             if ($empty == 0) {
                 $this->addFlash(

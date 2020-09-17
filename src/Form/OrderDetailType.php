@@ -15,6 +15,7 @@ class OrderDetailType extends AbstractType
         $builder
             ->add('quantity', IntegerType::class, [
                 'label' => false,
+                'required' => false,
                 'error_bubbling' => true
             ]);
     }

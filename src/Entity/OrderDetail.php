@@ -31,7 +31,7 @@ class OrderDetail
     private $food;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Assert\PositiveOrZero(message="La quantité d'un plat doit être égale ou supérieure à 0")
      */
     private $quantity;
@@ -70,7 +70,7 @@ class OrderDetail
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): self
+    public function setQuantity(?int $quantity): self
     {
         $this->quantity = $quantity;
 
