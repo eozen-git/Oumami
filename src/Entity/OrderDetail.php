@@ -19,13 +19,13 @@ class OrderDetail
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=order::class, inversedBy="orderDetails")
+     * @ORM\ManyToOne(targetEntity="Order", inversedBy="orderDetails")
      * @ORM\JoinColumn(nullable=false)
      */
     private $command;
 
     /**
-     * @ORM\ManyToOne(targetEntity=dish::class, cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Dish", cascade={"persist"})
      * @ORM\JoinColumn(name="food_id", referencedColumnName="id", nullable=false)
      */
     private $food;

@@ -1,9 +1,10 @@
 <nav class="nav navbar-expand" id="nav">
     <img class="logo-navbar" src="{{ asset('build/images/Oumami.png') }}" alt="Logo-Oumami"></a>
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto mr-5">
-            <li class="nav-item">
-                <a class="navbar-link nav-link" href="{{ path('reset') }}">Nouvelle commande</a>
+        <ul class="navbar-nav ml-auto mr-3">
+            <li class="nav-item d-flex flex-row">
+                <a class="navbar-link nav-link ml-3" href="{{ path('commands_list') }}">Liste commandes</a>
+                <a class="navbar-link nav-link ml-3" href="{{ path('reset') }}">Nouvelle commande</a>
             </li>
         </ul>
     </div>

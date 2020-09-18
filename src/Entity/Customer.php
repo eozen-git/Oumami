@@ -35,7 +35,7 @@ class Customer
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="customer")
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="customer")
      */
     private $orders;
 

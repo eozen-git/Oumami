@@ -6,6 +6,7 @@ use App\Entity\Cart;
 use App\Entity\OrderDetail;
 use App\Form\CartType;
 use App\Repository\DishRepository;
+use App\Repository\OrderRepository;
 use App\Service\ValidationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,10 +14,15 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class OrderController
+ * @package App\Controller
+ * @Route("/commande")
+ */
 class OrderController extends AbstractController
 {
     /**
-     * @Route("/commande", name="order")
+     * @Route ("", name="order")
      * @param DishRepository $dishRepository
      * @param Request $request
      * @param SessionInterface $session
@@ -67,7 +73,20 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/commande/reset", name="reset")
+     * @Route("/liste", name="commands_list")
+     * @param OrderRepository $orderRepository
+     * @return Response
+     */
+    public function list(OrderRepository $orderRepository) {
+        $orders = $orderRepository->findBy([]);
+
+        return $this->render('order/list.html.twig', [
+            'orders' => $orders
+        ]);
+    }
+
+    /**
+     * @Route("/reset", name="reset")
      * @param SessionInterface $session
      * @return Response
      */

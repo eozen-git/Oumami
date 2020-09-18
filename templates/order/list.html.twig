@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+{% block main %}
+<div class="header col-9 mx-auto">
+    <h1 class="text-center mt-5">Liste commandes</h1>
+</div>
+<section class="commands-list container mt-5">
+    <table class="table table-hover">
+        <thead class="table-primary">
+        <tr>
+            <th class="">Numéro de commande</th>
+            <th class="">Nom client</th>
+            <th class="">Date/heure récupération</th>
+            <th class="">Prix total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer.name }}</td>
+                <td>{{ order.retrievalDatetime|format_datetime('short', 'short', locale='fr') }}</td>
+                <td>{{ order.totalPrice|number_format(2) }} €</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

@@ -33,12 +33,12 @@ class Order
     private $retrieval_datetime;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="command", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="OrderDetail", mappedBy="command", orphanRemoval=true, cascade={"persist"})
      */
     private $orderDetails;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="orders", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Customer", inversedBy="orders", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Valid
      */
