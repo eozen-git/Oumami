@@ -37,7 +37,7 @@ class CartController extends AbstractController
      */
     public function index(SessionInterface $session, Request $request, CalculationManager $calculationManager, ValidationManager $validationManager)
     {
-        $orderDetails = ($session->get('cart'))->getOrderDetails();
+        $orderDetails = ($session->get('data'))->getOrderDetails();
         $entityManager = $this->getDoctrine()->getManager();
         $dishes = $entityManager->getRepository(Dish::class)->findBy([]);
 

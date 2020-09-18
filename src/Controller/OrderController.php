@@ -42,8 +42,8 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $cart = $form->getData();
-            $empty = $validationManager->emptyCheck($cart->getOrderDetails());
+            $data = $form->getData();
+            $empty = $validationManager->emptyCheck($data->getOrderDetails());
             if ($empty == 0) {
                 $this->addFlash(
                     'danger',
@@ -55,7 +55,7 @@ class OrderController extends AbstractController
                 ]);
             }
 
-            $errorMessages = $validationManager->validationLoop($cart->getOrderDetails());
+            $errorMessages = $validationManager->validationLoop($data->getOrderDetails());
 
             if (!empty($errorMessages)) {
                 return $this->render('order/index.html.twig', [
@@ -64,6 +64,7 @@ class OrderController extends AbstractController
                 ]);
             }
 
+            $session->set('data', $data);
             $session->set('cart', $cart);
 
             return $this->redirectToRoute('cart');
