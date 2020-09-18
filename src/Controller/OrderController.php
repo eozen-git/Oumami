@@ -41,7 +41,7 @@ class OrderController extends AbstractController
         $form = $this->createForm(CartType::class, $cart);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $empty = $validationManager->emptyCheck($data->getOrderDetails());
             if ($empty == 0) {
@@ -52,15 +52,6 @@ class OrderController extends AbstractController
 
                 return $this->render('order/index.html.twig', [
                     'form' => $form->createView(),
-                ]);
-            }
-
-            $errorMessages = $validationManager->validationLoop($data->getOrderDetails());
-
-            if (!empty($errorMessages)) {
-                return $this->render('order/index.html.twig', [
-                    'form' => $form->createView(),
-                    'errors' => $errorMessages,
                 ]);
             }
 

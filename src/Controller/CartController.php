@@ -56,7 +56,7 @@ class CartController extends AbstractController
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
             $customer = $entityManager->getRepository(Customer::class)->findOneBy(['name' => $data->getCustomer()->getName()]);
@@ -66,16 +66,6 @@ class CartController extends AbstractController
                 if ($formMail !== null && $order->getCustomer()->getEmail() === 'NULL') {
                     $order->getCustomer()->setEmail($formMail);
                 }
-            }
-
-            $errorMessages = $validationManager->validationLoopCustomer($order->getCustomer());
-            if (!empty($errorMessages)) {
-                return $this->render('cart/index.html.twig', [
-                    'form' => $form->createView(),
-                    'minErrors' => $errorMessages,
-                    'order' => $order,
-                    'orderDetails' => $orderDetails
-                ]);
             }
 
             $entityManager->persist($order);

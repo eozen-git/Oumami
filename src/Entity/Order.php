@@ -40,6 +40,7 @@ class Order
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="orders", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid
      */
     private $customer;
 
