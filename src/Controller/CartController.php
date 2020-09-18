@@ -11,18 +11,14 @@ use App\Form\OrderType;
 use App\Service\CalculationManager;
 use App\Service\ValidationManager;
 use DateTime;
-use Symfony\Bridge\Twig\Mime\BodyRenderer;
-use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 
 class CartController extends AbstractController
 {
@@ -32,10 +28,11 @@ class CartController extends AbstractController
      * @param Request $request
      * @param CalculationManager $calculationManager
      * @param ValidationManager $validationManager
+     * @param MailerInterface $mailer
      * @return Response
      * @throws TransportExceptionInterface
      */
-    public function index(SessionInterface $session, Request $request, CalculationManager $calculationManager, ValidationManager $validationManager)
+    public function index(SessionInterface $session, Request $request, CalculationManager $calculationManager, ValidationManager $validationManager, MailerInterface $mailer)
     {
         $orderDetails = ($session->get('data'))->getOrderDetails();
         $entityManager = $this->getDoctrine()->getManager();
@@ -64,7 +61,11 @@ class CartController extends AbstractController
 
             $customer = $entityManager->getRepository(Customer::class)->findOneBy(['name' => $data->getCustomer()->getName()]);
             if (isset($customer)) {
+                $formMail = $order->getCustomer()->getEmail();
                 $order->setCustomer($customer);
+                if ($formMail !== null && $order->getCustomer()->getEmail() === 'NULL') {
+                    $order->getCustomer()->setEmail($formMail);
+                }
             }
 
             $errorMessages = $validationManager->validationLoopCustomer($order->getCustomer());
@@ -81,24 +82,15 @@ class CartController extends AbstractController
             $entityManager->flush();
 
             if ($order->getCustomer()->getEmail() != null) {
-
-                $transport = new GmailSmtpTransport('eoz.wild', 'JJ?811223!jj');
-                $mailer = new Mailer($transport);
-
                 $email = (new TemplatedEmail())
-                    ->from('eoz.wild@gmail.com')
+                    ->from($this->getParameter('mailer_from'))
                     ->to($order->getCustomer()->getEmail())
                     ->subject('Votre commande Oumami')
                     ->htmlTemplate('cart/email/confirmation.html.twig')
                     ->context([
                         'order' => $order
-                    ]);
-
-                $loader = new FilesystemLoader('../templates/');
-                $twigEnv = new Environment($loader);
-                $twigBodyRenderer = new BodyRenderer($twigEnv);
-                $twigBodyRenderer->render($email);
-
+                    ])
+                ;
                 $mailer->send($email);
             }
 
