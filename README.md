@@ -1,5 +1,5 @@
 # Application de prise et de suivi de commandes - Oumami
-Application web destinée à un traiteur japonais indépendant. Il permet la prise de commandes avec l'envoi possible d'un mail récapitulatif au client ainsi qu'un suivi des commandes (gestion de l'état de la commande à venir). Un soin particulier a été apporté à l'UX afin d'éviter au maximum une perte de temps au client à son utilisation.
+Application web destinée à un traiteur japonais indépendant. Il permet la prise de commandes avec l'envoi possible d'un mail récapitulatif au client ainsi qu'un suivi des commandes (gestion de l'état de la commande à venir). Un soin particulier a été apporté à l'UX afin d'éviter au maximum une perte de temps à son utilisation.
 
 ## Installer le projet
 1. Cloner le repository
